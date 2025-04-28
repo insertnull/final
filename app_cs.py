@@ -104,7 +104,7 @@ def recommend_movies_for_user(user_id):
         user_movies = df[df['userId'] == user_id]
         highly_rated_movies = user_movies[user_movies['rating'] >= 4.0].sort_values(by="rating", ascending=False)
         highly_rated_titles = highly_rated_movies['title'].tolist()[:10]
-
+        #Movies not seen by user yet
         cluster_movies = df[(df['userId'].isin(similar_users)) & (~df['movieId'].isin(user_movies['movieId']))]
         recommended_movie_ids = cluster_movies.groupby('movieId')['rating'].mean().sort_values(ascending=False).head(10).index
         recommended_titles = movies[movies['movieId'].isin(recommended_movie_ids)]['title'].tolist()
